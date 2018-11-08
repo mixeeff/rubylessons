@@ -7,8 +7,8 @@ b = gets.to_f
 print "c = "
 c = gets.to_f
 if a==0
-	puts "Если коэффициент а=0 - это не квадратное уравнение"
-	return
+  puts "Если коэффициент а=0 - это не квадратное уравнение"
+  return
 end
 disсriminant = b**2 - 4 * a * c
 #формирование строки вывода
@@ -26,15 +26,15 @@ equation_str = equation_parts.join
 puts equation_str
 #вывод решения
 if disсriminant < 0
-	puts "не имеет корней"
+  puts "не имеет корней"
 elsif disсriminant == 0
-	root = -b / (2.0*a)
-	puts "имеет один корень х = #{root.round(3)}"
+  root = -b / (2.0*a)
+  puts "имеет один корень х = #{root.round(3)}"
 else
-	disсriminant_root = Math.sqrt(disсriminant)
-	root_1 = (-b + disсriminant_root) / (2.0*a)
-	root_2 = (-b - disсriminant_root) / (2.0*a)
-	puts "имеет два корня:"
-	puts "х1 = #{root_1.round(5)}"
-	puts "х2 = #{root_2.round(5)}"
+  disсriminant_root = Math.sqrt(disсriminant)
+  root_1 = (-b + disсriminant_root) / (2.0*a)
+  root_2 = (-b - disсriminant_root) / (2.0*a)
+  puts "имеет два корня:"
+  puts "х1 = #{root_1.round(5)}"
+  puts "х2 = #{root_2.round(5)}"
 end
