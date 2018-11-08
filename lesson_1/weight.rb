@@ -1,5 +1,5 @@
 print "Как вас зовут? "
-name = gets.chomp
+name = gets.chomp.capitalize
 print "Ваш рост в см? "
 height = gets.chomp.to_i
 ideal_weight = height - 110
