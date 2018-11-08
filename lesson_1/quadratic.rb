@@ -1,13 +1,30 @@
 puts "Решение квадратного уравнения"
 puts "Введите коэффициенты:"
 print "a = "
-a = gets.chomp.to_i
+a = gets.to_f
 print "b = "
-b = gets.chomp.to_i
+b = gets.to_f
 print "c = "
-c = gets.chomp.to_i
+c = gets.to_f
+if a==0
+	puts "Если коэффициент а=0 - это не квадратное уравнение"
+	return
+end
 disсriminant = b**2 - 4 * a * c
-puts "Уравнение #{"#{a if a > 1}x**2" if a}#{"+" if b>0}#{"#{b}x" if b}#{"+" if c>0}#{"#{c}" if c} = 0 "
+#формирование строки вывода
+equation_parts = ["Уравнение "]
+equation_parts << a if (a != 1) && (a != 0)
+equation_parts << "x^2" unless a == 0
+equation_parts << "+" if b > 0
+equation_parts << b if (b != 1) && (b != 0)
+equation_parts << "x" unless b == 0
+equation_parts << "+" if c > 0
+equation_parts << c unless c == 0
+equation_parts << " = 0"
+equation_str = equation_parts.join
+#вывод уравнения
+puts equation_str
+#вывод решения
 if disсriminant < 0
 	puts "не имеет корней"
 elsif disсriminant == 0
