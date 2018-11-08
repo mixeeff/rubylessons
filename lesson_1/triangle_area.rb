@@ -1,6 +1,6 @@
 print "Введите длину основания треугольника: "
-length = gets.chomp.to_i
+length = gets.to_f
 print "Введите высоту треугольника: "
-height = gets.chomp.to_i
+height = gets.to_f
 area = 0.5 * length * height
-puts "Площадь треугольника = #{area.round(1)}"
+puts "Площадь треугольника = #{area.round(3)}"
