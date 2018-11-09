@@ -8,7 +8,7 @@ print "c = "
 c = gets.to_f
 if a == 0
   puts "Если коэффициент а=0 - это не квадратное уравнение"
-  return
+  exit
 end
 disсriminant = b**2 - 4 * a * c
 #формирование строки вывода
