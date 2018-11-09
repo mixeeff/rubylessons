@@ -15,8 +15,11 @@ isosceles_triangle = sides[0] == sides[1]
 #вывод результатов
 unless valid_triangle
   puts "Это не треугольник!"
-  return
+  exit
 end
-puts "Треугольник #{"не " unless equilateral_triangle}равносторонний" 
-puts "Треугольник #{"не " unless right_triangle}прямоугольный" 
-puts "Треугольник #{"не " unless isosceles_triangle}равнобедренный"    
+if equilateral_triangle
+  puts "Треугольник равносторонний"
+elsif right_triangle
+  puts "Треугольник прямоугольный"
+  puts "Треугольник равнобедренный" if isosceles_triangle
+end
