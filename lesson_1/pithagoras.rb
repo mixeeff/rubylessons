@@ -8,18 +8,19 @@ print "C = "
 sides[2] = gets.to_f
 sides.sort!
 #определяем тип треугольника
-valid_triangle = sides[0] + sides[1] > sides[2]
-right_triangle = sides[2]**2 == sides[0]**2 + sides[1]**2
+valid_triangle = sides[2] < sides[1] + sides[2]
+right_triangle = (sides[2]**2).round(5) == sides[0]**2 + sides[1]**2
 equilateral_triangle = sides[0] == sides[1] && sides[1] == sides[2]
 isosceles_triangle = sides[0] == sides[1]
 #вывод результатов
-unless valid_triangle
+if !valid_triangle
   puts "Это не треугольник!"
-  exit
-end
-if equilateral_triangle
-  puts "Треугольник равносторонний"
+elsif right_triangle && isosceles_triangle
+  puts "Треугольник прямоугольный равнобедренный"
 elsif right_triangle
   puts "Треугольник прямоугольный"
-  puts "Треугольник равнобедренный" if isosceles_triangle
+elsif equilateral_triangle
+  puts "Треугольник равносторонний"
+else
+  puts "Треугольник не прямоугольный, не равносторонний"
 end
