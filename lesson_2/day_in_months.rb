@@ -1,5 +1,5 @@
 day_in_months = {
-  anuary: 31,
+  january: 31,
   february: 28,
   march: 31,
   april: 30,
@@ -15,4 +15,3 @@ day_in_months = {
 day_in_months.each do |month,days|
   puts month if days == 30
 end
-

@@ -12,9 +12,9 @@ loop do
     next
   end
   print "Цена за единицу: "
-  price = gets.to_i
+  price = gets.to_f
   print "Количество: "
-  quantity = gets.to_i
+  quantity = gets.to_f
   goods[name] = { price: price, quantity: quantity }
 end
 
@@ -24,5 +24,5 @@ goods.each { |good, value| good_sum[good] = value[:price] * value[:quantity] }
 good_sum.each_value { |val| total+=val }
 
 puts "Сумма по товарам:"
-good_sum.each { |good, sum| puts "#{good} - #{sum}" }
-puts "Общая сумма = #{total}"
+good_sum.each { |good, sum| puts "#{good} - #{sum.round(2)}" }
+puts "Общая сумма = #{total.round(2)}"
