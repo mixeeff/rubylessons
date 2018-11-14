@@ -1,7 +1,2 @@
-my_array = []
-number = 10
-until number > 100
-  my_array << number
-  number += 5
-end
+my_array = (10..100).step(5).to_a
 puts my_array

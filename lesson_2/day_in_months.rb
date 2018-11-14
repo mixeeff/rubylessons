@@ -12,6 +12,6 @@ day_in_months = {
   november: 30,
   december: 31,
 }
-day_in_months.each do |month,days|
+day_in_months.each do |month, days|
   puts month if days == 30
 end
