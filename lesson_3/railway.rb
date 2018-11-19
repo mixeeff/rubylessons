@@ -126,7 +126,15 @@ class Route
     if index 
       @stations.insert(index, inserted_station)
     else
-      "There is no such station"
+      puts "There is no such station"
+    end
+  end
+
+  def delete_station(station)
+    if @stations.include?(station)
+      @stations.delete(station)
+    else
+      puts "There is no such station"
     end
   end
 
@@ -174,10 +182,14 @@ sapsan.move(true)
 cargo.move(true)
 piter.report_trains(true)
 klin.report_trains(true)
+moscow.report_trains(false)
 cargo.move(true)
 
 sapsan.report_stations
 cargo.report_stations
+
+route1.delete_station(klin)
+route1.report_route
 
 
 
