@@ -59,9 +59,8 @@ class Train
     @route.stations[@current_station_num]
   end
 
-  protected
-  #метод будет переопределен в потомках
   def add_carriage(carriage)
+    return unless attachable_carriage?(carriage)
     return unless speed == 0
     carriage.owner.remove_carriage(carriage) if carriage.owner
     @carriages << carriage
@@ -69,9 +68,14 @@ class Train
   end
 
   def remove_carriage(carriage)
+    return unless attachable_carriage?(carriage)
     return unless speed == 0
     @carriages.delete(carriage)
     carriage.owner = nil
+  end
+
+  def attachable_carriage?(carriage)
+    true
   end
 
   private

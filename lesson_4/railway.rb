@@ -44,9 +44,9 @@ class Railway
   end
 
   def add_carriage(carriage)
-    if carriage.class == Passenger_carriage
+    if carriage.class == PassengerCarriage
       @passenger_carriages << carriage
-    elsif carriage.class == Cargo_carriage
+    elsif carriage.class == CargoCarriage
       @cargo_carriages << carriage
     end
   end

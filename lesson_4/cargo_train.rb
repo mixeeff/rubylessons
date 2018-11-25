@@ -1,21 +1,9 @@
-class Cargo_train < Train
-  def initialize(number)
-    super
-    @type = Railway::TRAIN_TYPES[1]
-  end
-
+class CargoTrain < Train
   def to_s
-    'Cargo train №' + number
-  end
-  
-  def add_carriage(carriage)
-    return unless carriage.class == Cargo_carriage
-    super
-  end
-  
-  def remove_carriage(carriage)
-    return unless carriage.class == Cargo_carriage
-    super
+    "Cargo train #{number}"
   end
 
+  def attachable_carriage?(carriage)
+    carriage.is_a?(CargoCarriage)
+  end
 end
