@@ -4,6 +4,9 @@ require_relative('train')
 require_relative('passenger_train')
 require_relative('cargo_train')
 require_relative('carriage')
+require_relative('passenger_carriage')
+require_relative('cargo_carriage')
+require_relative('railway_state')
 
 class Main
   NO_STATIONS_ERROR = 'First create at list 2 stations.'
@@ -38,6 +41,7 @@ class Main
     
     ['Quit', :exit]
     ]
+    @my_railway = RailwayState.new
   end
 
   # User Interface methods
@@ -62,11 +66,11 @@ class Main
   end
 
   def choose_route
-    choose_from_list(Route.instances_list, 'route')
+    choose_from_list(@my_railway.routes, 'route')
   end
 
   def choose_train
-    choose_from_list(PassengerTrain.instances_list + CargoTrain.instances_list, 'train')
+    choose_from_list(@my_railway.trains, 'train')
   end
 
   # Station methods
@@ -76,21 +80,22 @@ class Main
     station_name = gets.chomp.capitalize
     return if station_name.empty?
     station = Station.new(station_name)
+    @my_railway.stations << station
     puts "Station #{station} created"
   end
 
   def show_stations
-    return puts NO_STATIONS_ERROR unless Station.has_instances?
+    return puts NO_STATIONS_ERROR unless @my_railway.has_stations?
     puts 'Stations:'
-    show_list(Station.all)
+    show_list(Station.all.keys)
     puts "total #{Station.instances} stations"
   end
 
   def show_trains_on_station
-    return puts NO_TRAINS_ERROR unless PassengerTrain.has_instances? || CargoTrain.has_instances?
-    return puts NO_STATIONS_ERROR unless Station.has_instances?
+    return puts NO_TRAINS_ERROR unless @my_railway.has_trains?
+    return puts NO_STATIONS_ERROR unless @my_railway.has_stations?
     
-    station = choose_from_list(Station.instances_list, 'station')
+    station = choose_from_list(@my_railway.stations, 'station')
     return unless station
     return puts "There are no trains on station #{station}." unless station.has_trains?
     
@@ -114,27 +119,27 @@ class Main
     print 'Enter manufacturer (optional): '
     manufacturer = gets.chomp
     train.manufacturer = manufacturer unless manufacturer.empty?
+    @my_railway.trains << train
     puts "#{train} created."
   end
 
   def show_trains
-    return puts NO_TRAINS_ERROR unless PassengerTrain.has_instances? || CargoTrain.has_instances?
+    return puts NO_TRAINS_ERROR unless @my_railway.has_trains?
     puts 'Trains:'
-    show_list(PassengerTrain.instances_list + CargoTrain.instances_list)
+    show_list(@my_railway.trains)
     puts "total #{PassengerTrain.instances + CargoTrain.instances} trains"
   end
 
   def find_train
     print 'Enter train number: '
     number = gets.chomp
-    train = PassengerTrain.find(number)
-    train = CargoTrain.find(number) unless train
+    train = Train.find(number)
     return puts 'No trains with this number' unless train
     puts train
   end
 
   def move_train_forward
-    return puts NO_TRAINS_ERROR unless PassengerTrain.has_instances? || CargoTrain.has_instances?
+    return puts NO_TRAINS_ERROR unless @my_railway.has_trains?
     
     train = choose_train
     return unless train
@@ -149,7 +154,7 @@ class Main
   end
 
   def move_train_backward
-    return puts NO_TRAINS_ERROR unless PassengerTrain.has_instances? || CargoTrain.has_instances?
+    return puts NO_TRAINS_ERROR unless @my_railway.has_trains?
     
     train = choose_train
     return unless train
@@ -173,8 +178,10 @@ class Main
     return unless carriage_type
     if carriage_type == TRAIN_TYPES[0]
       carriage = PassengerCarriage.new(carriage_number)
+      @my_railway.passenger_carriages << carriage
     elsif carriage_type == TRAIN_TYPES[1]
       carriage = CargoCarriage.new(carriage_number)
+      @my_railway.cargo_carriages << carriage
     end
     print 'Enter manufacturer (optional): '
     manufacturer = gets.chomp
@@ -183,14 +190,13 @@ class Main
   end
 
   def add_carriage_to_train
-    return puts NO_TRAINS_ERROR unless PassengerTrain.has_instances? || CargoTrain.has_instances?
-    
+    return puts NO_TRAINS_ERROR unless @my_railway.has_trains?
     train = choose_train
     return unless train
     if train.is_a?(PassengerTrain)
-      carriage_list = PassengerCarriage.instances_list - train.carriages
+      carriage_list = @my_railway.passenger_carriages - train.carriages
     elsif train.is_a?(CargoTrain)
-      carriage_list = CargoCarriage.instances_list - train.carriages
+      carriage_list = @my_railway.cargo_carriages - train.carriages
     end
     if carriage_list.empty?
       puts 'There are no suitable carriages for this train.'
@@ -228,37 +234,38 @@ class Main
     if Station.instances < 2
       puts NO_STATIONS_ERROR
     else
-      start_station = choose_from_list(Station.all, 'start station')
+      start_station = choose_from_list(@my_railway.stations, 'start station')
       return unless start_station
-      end_station_list = Station.all - [start_station]
+      end_station_list = @my_railway.stations - [start_station]
       end_station = choose_from_list(end_station_list, 'end station')
       return unless end_station
       route = Route.new(start_station, end_station)
+      @my_railway.routes << route
       puts "Route #{route} created."
     end
   end
 
   def show_routes
-    return puts NO_ROUTES_ERROR unless Route.has_instances?
+    return puts NO_ROUTES_ERROR unless @my_railway.has_routes?
     puts 'Routes:'
-    show_list(Route.instances_list)
+    show_list(@my_railway.routes)
     puts "total #{Route.instances} routes"
   end
 
   def show_route_stations
-    return puts NO_ROUTES_ERROR unless Route.has_instances?
+    return puts NO_ROUTES_ERROR unless @my_railway.has_routes?
     route = choose_route
     return unless route
     route.report
   end
 
   def add_station_to_route
-    return puts NO_ROUTES_ERROR unless Route.has_instances?
-    return puts NO_STATIONS_ERROR unless Station.has_instances?
+    return puts NO_ROUTES_ERROR unless @my_railway.has_routes?
+    return puts NO_STATIONS_ERROR unless @my_railway.has_stations?
     
     route = choose_route
     return unless route
-    adding_stations = Station.instances_list - route.stations
+    adding_stations = @my_railway.stations - route.stations
     if adding_stations.size.zero?
       puts "There are no stations to add to route #{route}"
     else
@@ -270,7 +277,7 @@ class Main
   end
 
   def delete_station_from_route
-    return puts NO_ROUTES_ERROR unless Route.has_instances?
+    return puts NO_ROUTES_ERROR unless @my_railway.has_routes?
     
     route = choose_route
     return unless route
@@ -285,8 +292,8 @@ class Main
   end
 
   def set_train_to_route
-    return puts NO_TRAINS_ERROR unless PassengerTrain.has_instances? || CargoTrain.has_instances?
-    return puts NO_ROUTES_ERROR unless Route.has_instances?
+    return puts NO_TRAINS_ERROR unless @my_railway.has_trains?
+    return puts NO_ROUTES_ERROR unless @my_railway.has_routes?
     
     train = choose_train
     return unless train

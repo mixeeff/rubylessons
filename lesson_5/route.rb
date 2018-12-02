@@ -2,8 +2,6 @@ require_relative('instance_counter')
 
 class Route
   include InstanceCounter
-  set_instance_counter
-
   attr_reader:stations
 
   def initialize(start_station, end_station)

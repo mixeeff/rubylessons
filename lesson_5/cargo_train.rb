@@ -1,6 +1,4 @@
 class CargoTrain < Train
-  set_instance_counter
-
   def to_s
     result = "Cargo train №#{number}"
     result += ", made by #{manufacturer}" if manufacturer
