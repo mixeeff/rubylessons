@@ -1,4 +1,5 @@
 require_relative('manufacturer')
+
 class PassengerCarriage < Carriage;
   def to_s
     result = "Passenger carriage №#{number}"

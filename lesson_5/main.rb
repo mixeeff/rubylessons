@@ -17,29 +17,29 @@ class Main
 
   def initialize
     @main_menu = [
-    ['Create station', :create_station],
-    ['Show stations', :show_stations],
-    ['Show train on station', :show_trains_on_station],
+      ['Create station', :create_station],
+      ['Show stations', :show_stations],
+      ['Show train on station', :show_trains_on_station],
 
-    ['Create train', :create_train],
-    ['Show trains', :show_trains],
-    ['Find train', :find_train],
-    ['Move train forward', :move_train_forward],
-    ['Move train backward', :move_train_backward],
-    
-    ['Create carriage', :create_carriage],
-    ['Add carriage to train', :add_carriage_to_train],
-    ['Remove carriage from train', :remove_carriage_from_train],
-    ['Show carriages of train', :show_carriages_of_train],
-    
-    ['Create route', :create_route],
-    ['Show routes', :show_routes],
-    ['Show route stations', :show_route_stations],
-    ['Add station to route', :add_station_to_route],
-    ['Delete station from route', :delete_station_from_route],
-    ['Set train to route', :set_train_to_route],
-    
-    ['Quit', :exit]
+      ['Create train', :create_train],
+      ['Show trains', :show_trains],
+      ['Find train', :find_train],
+      ['Move train forward', :move_train_forward],
+      ['Move train backward', :move_train_backward],
+      
+      ['Create carriage', :create_carriage],
+      ['Add carriage to train', :add_carriage_to_train],
+      ['Remove carriage from train', :remove_carriage_from_train],
+      ['Show carriages of train', :show_carriages_of_train],
+      
+      ['Create route', :create_route],
+      ['Show routes', :show_routes],
+      ['Show route stations', :show_route_stations],
+      ['Add station to route', :add_station_to_route],
+      ['Delete station from route', :delete_station_from_route],
+      ['Set train to route', :set_train_to_route],
+      
+      ['Quit', :exit]
     ]
     @my_railway = RailwayState.new
   end
@@ -87,7 +87,7 @@ class Main
   def show_stations
     return puts NO_STATIONS_ERROR unless @my_railway.has_stations?
     puts 'Stations:'
-    show_list(Station.all.keys)
+    show_list(@my_railway.stations)
     puts "total #{Station.instances} stations"
   end
 

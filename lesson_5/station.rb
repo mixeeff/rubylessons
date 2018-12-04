@@ -30,6 +30,6 @@ class Station
   end
 
   def self.all
-    @@instances_list
+    @@instances_list.values
   end
 end
