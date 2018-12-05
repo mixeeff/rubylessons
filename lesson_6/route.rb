@@ -48,7 +48,7 @@ class Route
   protected
 
   def validate!
-    raise ARGUMENT_ERROR unless @start_station.is_a?(Station) & @end_station.is_a?(Station)  
+    raise ARGUMENT_ERROR unless @start_station.is_a?(Station) && @end_station.is_a?(Station)  
     raise SAME_STATIONS_ERROR if @start_station == @end_station
   end
   

@@ -5,7 +5,7 @@ class Train
   include Manufacturer
   include InstanceCounter
 
-  NUMBER_FORMAT = /[0-9a-z]{3}-?[0-9a-z]{2}/i
+  NUMBER_FORMAT = /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
   WRONG_NUMBER_ERROR = "Number must be String"
   EMRTY_NUMBER_ERROR = "Number can't be empty"
   NUMBER_FORMAT_ERROR = "Wrong number format"
