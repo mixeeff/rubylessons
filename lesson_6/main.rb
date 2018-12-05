@@ -12,6 +12,7 @@ class Main
   NO_STATIONS_ERROR = 'First create at list 2 stations.'
   NO_ROUTES_ERROR = 'First create at least 1 route.'
   NO_TRAINS_ERROR = 'First create at least 1 train.'
+  WRONG_NUMBER_ERROR = 'Wrong number format. Please enter correct number (###[-]##)'
 
   TRAIN_TYPES = ['Passenger', 'Cargo']
 
@@ -118,7 +119,7 @@ class Main
         train = CargoTrain.new(train_number)
       end
     rescue RuntimeError
-      puts "Wrong number format. Please enter correct number (###[-]##)"
+      puts WRONG_NUMBER_ERROR
       retry
     end
     print 'Enter manufacturer (optional): '

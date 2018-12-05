@@ -5,7 +5,7 @@ class Carriage
   attr_reader :number
   attr_reader :owner
 
-  NUMBER_FORMAT = /\[A-Z]+\d+/
+  NUMBER_FORMAT = /[A-Z]+\d+/
   
   def initialize(number)
     @number = number

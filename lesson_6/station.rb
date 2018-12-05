@@ -3,6 +3,9 @@ require_relative('instance_counter')
 class Station
   include InstanceCounter
   attr_reader :name, :trains
+
+  WRONG_NAME_ERROR = "Name must be String"
+  EMRTY_NAME_ERROR = "Name can't be empty"
   @@instances_list = {}
   
   def initialize(name)
@@ -44,7 +47,7 @@ class Station
   protected
 
   def validate!
-    raise "Name can't be nil" if name.nil?
-    raise "Name can't be empty" if name.size.zero?
+    raise WRONG_NAME_ERROR unless name.is_a?(String)
+    raise EMRTY_NAME_ERROR if name.strip.empty?
   end
 end

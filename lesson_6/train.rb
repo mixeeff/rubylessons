@@ -5,7 +5,10 @@ class Train
   include Manufacturer
   include InstanceCounter
 
-  NUMBER_FORMAT = /[0-9a-z]{3}-*[0-9a-z]{2}/i
+  NUMBER_FORMAT = /[0-9a-z]{3}-?[0-9a-z]{2}/i
+  WRONG_NUMBER_ERROR = "Number must be String"
+  EMRTY_NUMBER_ERROR = "Number can't be empty"
+  NUMBER_FORMAT_ERROR = "Wrong number format"
 
   attr_reader :number, :speed, :carriages
   @@instances_list = {}
@@ -120,8 +123,8 @@ class Train
   protected
 
   def validate!
-    raise "Number can't be nil" if number.nil?
-    raise "Number can't be empty" if number.size.zero?
-    raise "Wrong number format" if number !~ NUMBER_FORMAT
+    raise WRONG_NUMBER_ERROR unless number.is_a?(String)
+    raise EMRTY_NUMBER_ERROR if number.strip.empty?
+    raise NUMBER_FORMAT_ERROR if number !~ NUMBER_FORMAT
   end
 end
