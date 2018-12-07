@@ -7,14 +7,16 @@ require_relative('carriage')
 require_relative('passenger_carriage')
 require_relative('cargo_carriage')
 require_relative('railway_state')
+require_relative('test_railway')
 
 class Main
   NO_STATIONS_ERROR = 'First create at list 2 stations.'
   NO_ROUTES_ERROR = 'First create at least 1 route.'
   NO_TRAINS_ERROR = 'First create at least 1 train.'
-  TRAIN_NOT_FOUND = 'Train not found'
-
+  
   TRAIN_TYPES = ['Passenger', 'Cargo']
+
+  include TestRailway
 
   def initialize
     @main_menu = [
@@ -247,9 +249,13 @@ class Main
     return unless train
     carriage = choose_from_list(train.carriages, 'carriage')
     return unless carriage
-    return puts "No free volume in this carriage" if carriage.free_space <= 0
-    carriage.reserve_space
-    puts "Reserved 1 seat in #{carriage}"
+    begin
+      carriage.reserve_space
+    rescue RuntimeError => e
+      puts e.message
+    else
+      puts "Reserved 1 seat in #{carriage}"
+    end
   end
 
   def reserve_volume
@@ -258,10 +264,15 @@ class Main
     return unless train
     carriage = choose_from_list(train.carriages, 'carriage')
     return unless carriage
-    return puts "No free volume in this carriage" if carriage.free_space <= 0
+    return puts Carriage::NOT_ENOUGH_SPACE if carriage.free_space <= 0
     print 'Enter volume: '
     volume = gets.to_i
-    carriage.reserve_space(volume)
+    begin
+      carriage.reserve_space(volume)
+      rescue RuntimeError => e
+      puts e.message
+      retry
+    end
     puts "Reserved #{volume} sq.meters in #{carriage}"
   end
 
@@ -341,118 +352,15 @@ class Main
     puts ("#{train} now on the route #{route} on station #{train.current_station}")
   end
 
+  #Testing method
+
   def test_railway
-    puts 'Start test'
-    puts '-'*10
-    # Create Stations
-    station1 = Station.new('Moscow')
-    @my_railway.stations << station1
-    station2 = Station.new('Tver')
-    @my_railway.stations << station2
-    station3 = Station.new('Bologoe')
-    @my_railway.stations << station3
-    station4 = Station.new('St.Petersburg')
-    @my_railway.stations << station4
-    wrong_station = Station.new('Kukuevo')
-    @my_railway.stations << wrong_station
-    show_stations
-    puts ''
-
-    # Create Trains
-    pass_train1 = PassengerTrain.new('001-PS')
-    @my_railway.trains << pass_train1
-    pass_train2 = PassengerTrain.new('002-PS')
-    @my_railway.trains << pass_train2
-    cargo_train1 = CargoTrain.new('003-CR')
-    @my_railway.trains << cargo_train1
-    cargo_train2 = CargoTrain.new('004-CR')
-    @my_railway.trains << cargo_train2
-    show_trains
-    puts 'Find test'
-    train = Train.find('001-PS')
-    puts train ? train : TRAIN_NOT_FOUND
-    train = Train.find('999-PS')
-    puts train ? train : TRAIN_NOT_FOUND
-    puts ''
-
-    #Create carriages
-    pass_carriage1 = PassengerCarriage.new('PLC001', 50)
-    @my_railway.passenger_carriages << pass_carriage1
-    pass_carriage2 = PassengerCarriage.new('CPE002', 30)
-    @my_railway.passenger_carriages << pass_carriage2
-    cargo_carriage1 = CargoCarriage.new('CRC001', 120)
-    @my_railway.cargo_carriages << cargo_carriage1
-    cargo_carriage2 = CargoCarriage.new('CRC002', 75)
-    @my_railway.cargo_carriages << cargo_carriage2
-
-    #Carriage operations
-    pass_train1.add_carriage(pass_carriage1)
-    pass_train1.add_carriage(pass_carriage2)
-    pass_train1.remove_carriage(pass_carriage2)
-    pass_train2.add_carriage(pass_carriage2)
-
-    pass_carriage1.reserve_space
-    pass_carriage1.reserve_space
-    pass_carriage2.reserve_space
-
-    cargo_carriage1.reserve_space(20)
-    cargo_carriage2.reserve_space(75)
-
-    cargo_train1.add_carriage(cargo_carriage1)
-    cargo_train1.add_carriage(cargo_carriage2)
-    cargo_train2.add_carriage(cargo_carriage2)
-    
-    puts "Carriages of #{pass_train1}:"
-    show_list(pass_train1.carriages)
-    puts "Carriages of #{pass_train1}:"
-    show_list(pass_train2.carriages)
-
-    puts "Carriages of #{cargo_train1}:"
-    show_list(cargo_train1.carriages)
-    puts "Carriages of #{cargo_train2}:"
-    show_list(cargo_train2.carriages)
-    puts ''
-
-    #Create routes
-    route1 = Route.new(station1, station4)
-    @my_railway.routes << route1
-    route2 = Route.new(station1, station4)
-    @my_railway.routes << route2
-
-    #Route operations
-    route1.add_station(station2)
-    route1.add_station(station3)
-    route1.add_station(wrong_station)
-    show_routes
-    puts "#{route1} after insertion 3 stations"
-    route1.report
-    route1.delete_station(wrong_station)
-    puts "#{route1} after deletion wrong station"
-
-    route1.report
-    route2.report
-
-    pass_train1.set_route(route1)
-    pass_train2.set_route(route1)
-    cargo_train1.set_route(route2)
-    cargo_train1.set_route(route2)
-
-    pass_train1.go_next_station
-    pass_train1.go_next_station
-    pass_train1.go_next_station
-    pass_train1.go_next_station
-
-    pass_train2.go_next_station
-    cargo_train1.go_next_station
-    cargo_train2.go_next_station
-    cargo_train2.go_previous_station
-
-    puts ''
-    puts "Trains on station #{station4}:"
-    station4.each_train { |train| puts train }
-    puts ''
-    puts 'Test done'
-    puts '-'*10
+    create_test_stations
+    create_test_trains
+    create_test_carriages
+    test_carriage_operations
+    create_test_routes
+    test_routes_and_trains
   end
 
   def run

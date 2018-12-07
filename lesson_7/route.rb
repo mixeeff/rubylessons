@@ -4,7 +4,7 @@ class Route
   include InstanceCounter
   attr_reader :stations
 
-  ARGUMENT_ERROR = "Argument mus be Station Class"
+  ARGUMENT_ERROR = "Argument must be Station Class"
   SAME_STATIONS_ERROR = "Start and End stations must be different"
 
   def initialize(start_station, end_station)

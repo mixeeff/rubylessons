@@ -1,9 +1,8 @@
 require_relative('manufacturer')
 
-class PassengerCarriage < Carriage;
-  NOT_ENOUGH_SEATS = 'There\'s not enough free seats in carriage'
-  
+class PassengerCarriage < Carriage;  
   def reserve_space
+    raise self.Class::NOT_ENOUGH_SPACE if @free_space == 0
     @free_space -= 1
   end
 
