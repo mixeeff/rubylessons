@@ -46,7 +46,6 @@ class Station
 
   def each_train
     return unless block_given?
-    return unless has_trains?
     @trains.each { |train| yield(train) }
   end
 

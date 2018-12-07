@@ -102,7 +102,6 @@ class Train
 
   def each_carriage
     return unless block_given?
-    return unless has_carriages?
     @carriages.each { |carriage| yield(carriage) }
   end
 

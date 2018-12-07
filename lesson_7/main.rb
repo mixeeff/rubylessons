@@ -247,7 +247,8 @@ class Main
     return unless train
     carriage = choose_from_list(train.carriages, 'carriage')
     return unless carriage
-    carriage.reserve_seat
+    return puts "No free volume in this carriage" if carriage.free_space <= 0
+    carriage.reserve_space
     puts "Reserved 1 seat in #{carriage}"
   end
 
@@ -257,10 +258,10 @@ class Main
     return unless train
     carriage = choose_from_list(train.carriages, 'carriage')
     return unless carriage
-    return puts "No free volume in this carriage" if carriage.free_volume <= 0
+    return puts "No free volume in this carriage" if carriage.free_space <= 0
     print 'Enter volume: '
     volume = gets.to_i
-    carriage.reserve_volume(volume)
+    carriage.reserve_space(volume)
     puts "Reserved #{volume} sq.meters in #{carriage}"
   end
 
@@ -390,12 +391,12 @@ class Main
     pass_train1.remove_carriage(pass_carriage2)
     pass_train2.add_carriage(pass_carriage2)
 
-    pass_carriage1.reserve_seat
-    pass_carriage1.reserve_seat
-    pass_carriage2.reserve_seat
+    pass_carriage1.reserve_space
+    pass_carriage1.reserve_space
+    pass_carriage2.reserve_space
 
-    cargo_carriage1.reserve_volume(20)
-    cargo_carriage2.reserve_volume(75)
+    cargo_carriage1.reserve_space(20)
+    cargo_carriage2.reserve_space(75)
 
     cargo_train1.add_carriage(cargo_carriage1)
     cargo_train1.add_carriage(cargo_carriage2)
