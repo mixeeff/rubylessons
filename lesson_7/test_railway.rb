@@ -1,9 +1,5 @@
 module TestRailway
   TRAIN_NOT_FOUND = 'Train not found'
-  
-  def create_test_objects
-    
-  end
 
   def create_test_stations
     puts 'CREATING STATIONS'
@@ -116,11 +112,11 @@ module TestRailway
 
   def test_routes_and_trains
     def move_forward(train)
-        puts "#{train} moving forward to #{train.go_next_station}"
+      puts "#{train} moving forward to #{train.go_next_station}"
     end
 
     def move_backward(train)
-        puts "#{train} moving backward to #{train.go_previous_station}"
+      puts "#{train} moving backward to #{train.go_previous_station}"
     end
 
     puts 'ROUTES AND TRAINS OPERATIONS'

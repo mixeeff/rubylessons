@@ -2,8 +2,7 @@ require_relative('manufacturer')
 
 class PassengerCarriage < Carriage;  
   def reserve_space
-    raise self.Class::NOT_ENOUGH_SPACE if @free_space == 0
-    @free_space -= 1
+    super(1)
   end
 
   def to_s

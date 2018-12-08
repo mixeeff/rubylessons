@@ -265,11 +265,11 @@ class Main
     carriage = choose_from_list(train.carriages, 'carriage')
     return unless carriage
     return puts Carriage::NOT_ENOUGH_SPACE if carriage.free_space <= 0
-    print 'Enter volume: '
-    volume = gets.to_i
     begin
+      print 'Enter volume: '
+      volume = gets.to_i
       carriage.reserve_space(volume)
-      rescue RuntimeError => e
+    rescue RuntimeError => e
       puts e.message
       retry
     end
