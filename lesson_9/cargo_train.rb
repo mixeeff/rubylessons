@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative('meta_modules/validation')
+
 class CargoTrain < Train
+  include Validation
+
   @instances_list = {}
 
   validate :number, :presence

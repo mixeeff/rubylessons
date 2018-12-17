@@ -38,6 +38,11 @@ module StationOperations
     station = choose_from_list(@my_railway.stations, 'station')
     return unless station
 
-    puts station.name_history
+    if station.name_history.empty?
+      puts "Station #{station.name} hasn't been renamed"
+    else
+      puts "Previous names of #{station.name}:"
+      puts station.name_history
+    end
   end
 end

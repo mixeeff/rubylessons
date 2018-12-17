@@ -3,7 +3,7 @@
 require_relative('meta_modules/validation')
 
 class PassengerTrain < Train
-  extend Validation
+  include Validation
 
   @instances_list = {}
 

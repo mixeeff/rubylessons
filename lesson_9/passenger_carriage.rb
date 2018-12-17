@@ -4,7 +4,7 @@ require_relative('modules/manufacturer')
 require_relative('meta_modules/validation')
 
 class PassengerCarriage < Carriage
-  extend Validation
+  include Validation
 
   validate :number, :format, NUMBER_FORMAT
   validate :space, :presence

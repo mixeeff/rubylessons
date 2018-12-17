@@ -6,7 +6,7 @@ require_relative('meta_modules/validation')
 
 class Station
   extend Acсessors
-  extend Validation
+  include Validation
   include InstanceCounter
 
   @instances_list = {}

@@ -4,7 +4,7 @@ require_relative('modules/instance_counter')
 require_relative('meta_modules/validation')
 
 class Route
-  extend Validation
+  include Validation
   include InstanceCounter
 
   SAME_STATIONS_ERROR = 'Start and End stations must be different'

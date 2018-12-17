@@ -2,9 +2,10 @@
 
 require_relative('modules/manufacturer')
 require_relative('modules/instance_counter')
+require_relative('meta_modules/validation')
 
 class Carriage
-  extend Validation
+  include Validation
 
   include Manufacturer
   include InstanceCounter

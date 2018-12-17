@@ -8,7 +8,7 @@ require_relative('modules/routable')
 
 class Train
   extend Acсessors
-  extend Validation
+  include Validation
 
   include Manufacturer
   include InstanceCounter

@@ -30,10 +30,7 @@ class Main
   def run
     loop do
       user_choise = menu
-      break unless user_choise
-
-      selected_method = method_name(user_choise)
-      send selected_method
+      send method_name(user_choise) if user_choise
       puts ''
     end
   end
